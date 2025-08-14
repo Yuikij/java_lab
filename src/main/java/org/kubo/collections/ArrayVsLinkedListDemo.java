@@ -10,16 +10,16 @@ public final class ArrayVsLinkedListDemo {
     private ArrayVsLinkedListDemo() {}
 
     public static void run() {
-        System.out.println("\n==== Array / ArrayList vs LinkedList demo ====");
+        System.out.println("\n==== 数组 / ArrayList 与 LinkedList 对比演示 ====");
 
         int elementCount = 100_000;
         int operationCount = 50_000;
-        System.out.printf("Data size: %,d, Operations: %,d%n", elementCount, operationCount);
+        System.out.printf("数据规模：%,d，操作次数：%,d%n", elementCount, operationCount);
 
-        // Warmup to trigger JIT
+        // 预热，触发 JIT 编译
         warmup();
 
-        // 1) Random access: array vs LinkedList
+        // 1）随机访问：数组 vs 链表
         int[] intArray = createIntArray(elementCount);
         LinkedList<Integer> intLinkedList = createLinkedList(elementCount);
         int[] randomIndexes = createRandomIndexes(operationCount, elementCount);
@@ -38,9 +38,9 @@ public final class ArrayVsLinkedListDemo {
             }
             blackhole(sum);
         });
-        System.out.printf("Random access sum: array=%dms, linkedList=%dms%n", tArrayRandom, tLinkedListRandom);
+        System.out.printf("随机访问耗时：int[]=%dms，LinkedList=%dms%n", tArrayRandom, tLinkedListRandom);
 
-        // 2) Sequential iteration: array vs LinkedList
+        // 2）顺序遍历：数组 vs 链表
         long tArrayIter = measureMillis(() -> {
             long sum = 0;
             for (int v : intArray) {
@@ -55,10 +55,10 @@ public final class ArrayVsLinkedListDemo {
             }
             blackhole(sum);
         });
-        System.out.printf("Sequential iteration sum: array=%dms, linkedList=%dms%n", tArrayIter, tLinkedListIter);
+        System.out.printf("顺序遍历耗时：int[]=%dms，LinkedList=%dms%n", tArrayIter, tLinkedListIter);
 
-        // 3) Insert in the middle: ArrayList vs LinkedList
-        int inserts = 10_000; // keep moderate to finish quickly
+        // 3）中间插入：ArrayList vs LinkedList
+        int inserts = 10_000; // 保持适中以便快速完成
         List<Integer> arrayList = new ArrayList<>();
         List<Integer> linkedList = new LinkedList<>();
         preload(arrayList, elementCount / 10);
@@ -74,9 +74,9 @@ public final class ArrayVsLinkedListDemo {
                 linkedList.add(linkedList.size() / 2, i);
             }
         });
-        System.out.printf("Middle insert (%,d): arrayList=%dms, linkedList=%dms%n", inserts, tArrayListMiddleInsert, tLinkedListMiddleInsert);
+        System.out.printf("中间插入（%,d 次）：ArrayList=%dms，LinkedList=%dms%n", inserts, tArrayListMiddleInsert, tLinkedListMiddleInsert);
 
-        // 4) Head operations (add/remove at head): ArrayList vs LinkedList
+        // 4）头部操作（头部添加/删除）：ArrayList vs LinkedList
         int headOps = 20_000;
         List<Integer> arrayListHead = new ArrayList<>();
         List<Integer> linkedListHead = new LinkedList<>();
@@ -90,9 +90,9 @@ public final class ArrayVsLinkedListDemo {
             for (int i = 0; i < headOps; i++) ll.addFirst(i);
             for (int i = 0; i < headOps; i++) ll.removeFirst();
         });
-        System.out.printf("Head add/remove (%,d): arrayList=%dms, linkedList=%dms%n", headOps, tArrayListHeadOps, tLinkedListHeadOps);
+        System.out.printf("头部增删（%,d 次）：ArrayList=%dms，LinkedList=%dms%n", headOps, tArrayListHeadOps, tLinkedListHeadOps);
 
-        // 5) Remove from middle: ArrayList vs LinkedList
+        // 5）中间删除：ArrayList vs LinkedList
         List<Integer> arrayListRemove = new ArrayList<>();
         List<Integer> linkedListRemove = new LinkedList<>();
         preload(arrayListRemove, elementCount / 5);
@@ -108,13 +108,13 @@ public final class ArrayVsLinkedListDemo {
                 linkedListRemove.remove(linkedListRemove.size() / 2);
             }
         });
-        System.out.printf("Middle remove (%,d): arrayList=%dms, linkedList=%dms%n", removeOps, tArrayListMiddleRemove, tLinkedListMiddleRemove);
+        System.out.printf("中间删除（%,d 次）：ArrayList=%dms，LinkedList=%dms%n", removeOps, tArrayListMiddleRemove, tLinkedListMiddleRemove);
 
-        System.out.println("Notes:");
-        System.out.println("- Array (int[]) has O(1) random access and great locality; LinkedList random access is O(n).");
-        System.out.println("- ArrayList middle ops cost O(n) due to shifting; LinkedList middle ops avoid shifting but locating index is O(n).");
-        System.out.println("- LinkedList excels at head insert/remove (O(1)); ArrayList head ops are O(n).");
-        System.out.println("- Iteration over arrays/ArrayList is cache-friendly; LinkedList has pointer chasing overhead.");
+        System.out.println("说明：");
+        System.out.println("- 数组（int[]）随机访问为 O(1)，局部性好；LinkedList 随机访问为 O(n)。");
+        System.out.println("- ArrayList 的中间插入/删除需要搬移元素为 O(n)；LinkedList 避免搬移，但定位到指定索引本身需要 O(n)。");
+        System.out.println("- LinkedList 在头部插入/删除为 O(1)；ArrayList 在头部操作一般为 O(n)。");
+        System.out.println("- 遍历数组/ArrayList 更利于缓存，通常更快；LinkedList 存在指针跳转开销。");
     }
 
     private static void warmup() {
@@ -151,7 +151,7 @@ public final class ArrayVsLinkedListDemo {
     }
 
     private static int getByIndex(LinkedList<Integer> list, int index) {
-        // LinkedList.get(index) is O(n); calling directly to demonstrate cost
+        // LinkedList.get(index) 为 O(n)；直接调用用于展示其代价
         return list.get(index);
     }
 

@@ -4,18 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import org.kubo.collections.ArrayVsLinkedListDemo;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+// 运行方式：在 IDE 中运行 Main.main，或使用 Maven 执行
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!\n");
+        // 示例输出
+        System.out.printf("你好，欢迎使用！\n");
         List<String> list = new ArrayList<>();
 
         for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
+            // 简单循环输出
             System.out.println("i = " + i);
         }
 
