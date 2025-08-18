@@ -86,6 +86,10 @@ public class AQSDemo {
                 setState(permits);
             }
             
+            int getPermits() {
+                return getState();
+            }
+            
             @Override
             protected int tryAcquireShared(int acquires) {
                 for (;;) {
@@ -129,7 +133,7 @@ public class AQSDemo {
         }
         
         public int availablePermits() {
-            return sync.getState();
+            return sync.getPermits();
         }
     }
     
